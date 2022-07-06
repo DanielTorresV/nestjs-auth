@@ -6,6 +6,7 @@ import { ItemsModule } from './items/items.module';
 import { Item } from './items/entities/item.entity';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,11 +17,12 @@ import { User } from './users/entities/user.entity';
       username: 'root',
       password: 's0m3b0dy',
       database: 'nest_auth',
-      entities: [Item, User],
+      entities: [User, Item],
       synchronize: true,
     }),
-    ItemsModule,
+    AuthModule,
     UsersModule,
+    ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

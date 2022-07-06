@@ -14,15 +14,10 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const hash = await bcrypt.hash(createUserDto.password, 12);
-    const newUser = {
-      ...createUserDto,
-      password: hash,
-    };
-
-    const data = await this.userRepository.save(newUser);
-
-    return data;
+    const { password } = createUserDto;
+    const hash = await bcrypt.hash(password, 12);
+    createUserDto = { ...createUserDto, password: hash };
+    return this.userRepository.save(createUserDto);
   }
 
   findAll() {
@@ -35,15 +30,9 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     if ('password' in updateUserDto) {
-      const hash = await bcrypt.hash(updateUserDto.password, 12);
-      const updateUser = {
-        ...updateUserDto,
-        password: hash,
-      };
-
-      const data = await this.userRepository.update(id, updateUser);
-
-      return data;
+      const { password } = updateUserDto;
+      const hash = await bcrypt.hash(password, 12);
+      updateUserDto = { ...updateUserDto, password: hash };
     }
     return this.userRepository.update(id, updateUserDto);
   }
